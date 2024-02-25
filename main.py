@@ -10,7 +10,7 @@ agents = AWSAgents()
 
 print("## Welcome to the Game Crew")
 print('-------------------------------')
-game = """
+prompt = """
 Create a detailed diagram depicting the underlying AWS architecture for an online food delivery application. The diagram should consider all the essential components and interactions necessary to explain the system. The architecture should include the following AWS services and components:
 1. Amazon API Gateway for handling incoming API requests and routing them to appropriate services.
 2. AWS Lambda functions for serverless computing, allowing the app to process and manage orders, user authentication, and other core functionalities.
@@ -28,11 +28,9 @@ senior_engineer_agent = agents.senior_engineer_agent()
 code_reviewer_agent = agents.code_reviewer_agent()
 
 # Create Tasks
-tcode = tasks.code_task(senior_engineer_agent, game)
-rcode = tasks.review_task(code_reviewer_agent, game)
-# approve_game = tasks.evaluate_task(chief_qa_engineer_agent, game)
+tcode = tasks.code_task(senior_engineer_agent, prompt)
+rcode = tasks.review_task(code_reviewer_agent, prompt)
 
-# Create Crew responsible for Copy
 crew = Crew(
 	agents=[
 		senior_engineer_agent,
@@ -42,17 +40,14 @@ crew = Crew(
 	tasks=[
 		tcode,
 		rcode,
-		# approve_game
 	],
 	verbose=True
 )
 
-game = crew.kickoff()
+run = crew.kickoff()
 
-
-# Print results
 print("\n\n########################")
 print("## Here is the result")
 print("########################\n")
 print("final code for the AWS solution is mm:")
-print(game)
+print(run)
