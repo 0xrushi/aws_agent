@@ -1,0 +1,22 @@
+@startuml
+!include importall.puml
+' Define Services
+APIGateway(AmazonAPIGateway, "API Gateway", "")
+Lambda(AWSLambda, "Lambda\n(Order Processing, User Auth)", "")
+RDS(AmazonRDS, "RDS\n(Customer, Restaurant, Order Data)", "")
+S3(AmazonS3, "S3\n(Static Assets)", "")
+Cognito(AmazonCognito, "Cognito\n(User Authentication)", "")
+ElasticLoadBalancing(ElasticLoadBalancing, "Elastic Load Balancer", "")
+EC2(AmazonEC2, "EC2\n(Application Servers)", "")
+
+' Relationships
+APIGateway -down-> Lambda
+APIGateway -down-> EC2
+Lambda -right-> RDS
+EC2 -down-> RDS
+S3 -[hidden]down-> APIGateway
+Cognito -down-> Lambda
+Cognito -down-> EC2
+ElasticLoadBalancing -up-> EC2
+
+@enduml
